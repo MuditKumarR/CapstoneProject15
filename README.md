@@ -85,3 +85,62 @@ Install the required libraries by running:
 
 ```bash
 pip install pandas numpy scikit-learn boto3 sqlalchemy mysql-connector-python luigi tqdm seaborn matplotlib
+```
+# Getting AWS Access Keys
+
+To interact with AWS services (like S3), you'll need AWS Access Keys. These keys allow your application to authenticate and interact with AWS resources.
+
+### Steps to Obtain AWS Access Keys:
+
+1. **Sign in to AWS Console**: Go to the AWS Management Console and log in with your AWS account.
+   
+2. **Access IAM**: In the console, navigate to IAM (Identity and Access Management).
+   
+3. **Create a New User**:
+   - In the IAM dashboard, click **Users** on the left-hand menu, then click **Add user**.
+   - Choose **Programmatic access** to allow API access.
+
+4. **Attach Policies**: Choose the permissions for the user:
+   - Attach the policy **AmazonS3ReadOnlyAccess** to allow read access to S3.
+
+5. **Create User**: After completing the steps, you will receive your **Access Key ID** and **Secret Access Key**. Save these securely, as they will not be shown again.
+
+6. Once you have the keys, use them to configure the pipeline.
+
+---
+
+# Creating a MySQL RDS Instance
+
+To create an Amazon RDS instance for MySQL, follow these steps:
+
+### Steps to Create MySQL RDS Instance:
+
+1. **Sign in to AWS Console**: Log in to the AWS Management Console.
+
+2. **Navigate to RDS**: In the search bar, type **RDS** and click on the **RDS service**.
+
+3. **Launch a DB Instance**:
+   - Click on **Create database**.
+   - Choose the **MySQL** engine.
+   - Select the **Free Tier** option if you are eligible.
+   - Fill in the details, such as DB instance identifier, master username, and password. Remember to note the **Master Username** and **Password** as you'll need these for connection.
+
+4. **Configure VPC and Security Group**:
+   - Ensure your RDS instance is accessible. Create or choose an existing VPC and Security Group that allows inbound traffic on port **3306** (MySQL default).
+   - Set the **Public accessibility** to **Yes** if you need external access.
+
+5. **Launch the Instance**: After configuring, click **Create database**.
+
+6. **Obtain RDS Endpoint**: Once the instance is available, find its endpoint in the RDS dashboard. This will be used as the `MYSQL_HOST` in your configuration.
+
+After creating the RDS instance, make sure the instance is publicly accessible if you're connecting from your local machine, or configure the VPC to allow access from specific sources.
+
+---
+
+# How to Run
+
+To execute the entire pipeline, simply run the Python script:
+
+```bash
+python sports_data_pipeline.py
+```
