@@ -86,6 +86,28 @@ Install the required libraries by running:
 ```bash
 pip install pandas numpy scikit-learn boto3 sqlalchemy mysql-connector-python luigi tqdm seaborn matplotlib
 ```
+# Configuration
+
+## AWS Credentials
+
+You need to configure the following parameters to allow the pipeline to download data from S3:
+
+- **AWS Access Key**: Set your AWS access key.
+- **AWS Secret Key**: Set your AWS secret key.
+
+## MySQL RDS Configuration
+
+Provide the appropriate values for the following MySQL RDS parameters:
+
+- **MYSQL_HOST**: The endpoint of your RDS instance.
+- **MYSQL_PORT**: The port for MySQL (default is 3306).
+- **MYSQL_DB**: The database name where the data will be stored.
+- **MYSQL_USER**: The username for MySQL.
+- **MYSQL_PASSWORD**: The password for the MySQL user.
+
+Ensure that the MySQL instance is accessible and that the database and table are correctly configured.
+
+
 # Getting AWS Access Keys
 
 To interact with AWS services (like S3), you'll need AWS Access Keys. These keys allow your application to authenticate and interact with AWS resources.
@@ -144,3 +166,14 @@ To execute the entire pipeline, simply run the Python script:
 ```bash
 python sports_data_pipeline.py
 ```
+This will execute the pipeline using **Luigi's local scheduler**, running each task in sequence and displaying their progress. After the tasks are completed, the results will be saved in the respective output files.
+
+## Task Breakdown:
+
+- **Download Data from S3**: This task downloads the dataset from an S3 bucket and stores it locally.
+- **Explore Data and Generate Report**: This task explores the dataset, generates summary statistics, and identifies missing values.
+- **Clean the Data and Handle Missing Values**: This task handles missing data by imputing values and removing anomalies and outliers.
+- **Load Cleaned Data to MySQL RDS**: This task loads the cleaned data into a MySQL RDS database.
+- **Query Data from MySQL RDS**: This task executes a query on the MySQL RDS instance and stores the results in a text file.
+
+Each task creates an output file (e.g., CSVs, text files) that is stored locally in the directory from which the script is run.
